@@ -14,14 +14,14 @@ public class Badge {
     private String id;
     private String description;
     
-      public void setID(){
-        this.id = "021890C0";
+      public void setID(String newID){
+        this.id = newID;
     }
     public String getID(){
         return id;
     }
-    public void setDescrip(){
-        this.description = "Chapell, George R";
+    public void setDescrip(String newDescrip){
+        this.description = newDescrip;
     }
     public String getDescrip(){
         return description;
