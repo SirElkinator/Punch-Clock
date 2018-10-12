@@ -16,6 +16,7 @@ public class TeamProject {
            */
           public static void main(String[] args) {
                     // TODO code application logic here
+                    TASDatabase.TASDatabase();
           }
           
 }

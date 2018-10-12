@@ -1,7 +1,14 @@
-import tas_fa18.Shift;
-import tas_fa18.TASDatabase;
-import tas_fa18.Punch;
-import tas_fa18.Badge;
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package Feature1;
+
+import teamproject.Shift;
+import teamproject.TASDatabase;
+import teamproject.Punch;
+import teamproject.Badge;
 
 import org.junit.*;
 import static org.junit.Assert.*;
@@ -107,10 +114,3 @@ public class Feature1 {
     }
     
 }
-
-
-
-
-
-
-

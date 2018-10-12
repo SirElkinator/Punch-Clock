@@ -10,45 +10,73 @@ package teamproject;
  * @author Chase Sparks
  */
 
-import teamproject.Shift;
-import teamproject.Punch;
-import teamproject.Badge;
+
 import java.sql.*;
 
 public class TASDatabase {
          
-         /* Class.forName("com.mysql.jdbc.Driver").newInstance();
-          String url = "jdbc:mysql://localhost/dbname";
-          Connection conn = DriverManager.getConnection(url, username, password);
-          Statement stmt = conn.createStatement( );
-          ResultSet result = stmt.executeQuery("SELECT * FROM badge WHERE id='3282F212'");
-          if ( result != null ){
-                    result.next();
-                    String id = result.getString("id");
-                    String desc = result.getString("description");
-          }
-          result.close( );
-          stmt.close( );
-          conn.close( );*/
+         
+         public static  void TASDatabase(){
+                    
+                   Connection conn = null;
+                    PreparedStatement pstSelect = null, pstUpdate = null;
+                    ResultSet resultset = null;
+                   
+                    try{ 
+                             
+                              String url = "jdbc:mysql://localhost/tas";
+                              String username = "tasuser";
+                              String password = "teamE";
+                              System.out.println("Connecting to " + url + "...");
           
-          Shift getShift(int punchtypeid){
+                              Class.forName("com.mysql.jdbc.Driver").newInstance();
+                              conn = DriverManager.getConnection(url, username, password);
+                               if (conn.isValid(0)) {
+                                        System.out.println("Connected Successfully!");
+                               }
+                               
+                              /*Statement stmt = conn.createStatement( );
+                              ResultSet result = stmt.executeQuery("SELECT * FROM badge WHERE id='3282F212'");
+                              if ( result != null ){
+                                        result.next();
+                                        String id = result.getString("id");
+                                        String desc = result.getString("description");
+                              }*/
+                              
+                              conn.close( );
+                              
+                    }
+                   
+                   catch (Exception e){
+                              System.err.println(e.toString());
+                    }
+                   
+                   finally {
+            
+                              if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
+            
+                              if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
+            
+                              if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
+            
+                    }
+                   
+         }
+         
+          /*public Shift getShift(int punchtypeid){
                     
           }
           
-          Shift getShift(String Badge){
+          public Shift getShift(Badge Badge){
                     
           }
           
-          Badge getBadge(String Badge){
-                    
+          public Badge getBadge(String Badge){
+                    //return Badge;
           }
           
-          Punch getPunch(int punchtypeid){
+          public Punch getPunch(int punchtypeid){
                     
-          }
-
-          //close(){
-                    
-          //}
+          }*/
           
 }
