@@ -33,7 +33,7 @@ public class Badge {
         this.id = id;
         this.description = description;
         
-    }
+    } 
     
     @Override
     public String toString(){
