@@ -10,8 +10,7 @@ package teamproject;
  * @author Chase Sparks
  */
 public class Badge {
-       
-    
+
     private String id;
     private String description;
     
@@ -40,6 +39,7 @@ public class Badge {
            String badge;
            badge = "#"+id +" ("+ description+")";
            return badge;
-    }
+
           
+    }
 }
