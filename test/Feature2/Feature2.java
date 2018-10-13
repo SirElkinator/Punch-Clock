@@ -1,5 +1,10 @@
 package Feature2;
 
+import teamproject.Shift;
+import teamproject.TASDatabase;
+import teamproject.Punch;
+import teamproject.Badge;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;

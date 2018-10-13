@@ -10,5 +10,7 @@ package teamproject;
  * @author Chase Sparks
  */
 public class Punch {
-          
+          Punch(Badge badge, int terminalid, int punchtypeid){
+                    
+          }
 }

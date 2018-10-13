@@ -12,42 +12,210 @@ package teamproject;
 
 
 import java.sql.*;
+import java.util.Date;
 
 public class TASDatabase {
          
          
-         public static  void TASDatabase(){
-                    
-                   Connection conn = null;
+         public static void TASDatabase(){
+                    TASDatabase db = new TASDatabase();
+                   db.getPunch(258);
+                   db.getBadge("021890C0");
+                   db.getShift(1);
+         }
+         
+          public Shift getShift(int shiftid){
+                     
+                    Connection conn = null;
                     PreparedStatement pstSelect = null, pstUpdate = null;
                     ResultSet resultset = null;
-                   
+                   Shift shift = null;
                     try{ 
                              
                               String url = "jdbc:mysql://localhost/tas";
                               String username = "tasuser";
                               String password = "teamE";
-                              System.out.println("Connecting to " + url + "...");
-          
+                          
                               Class.forName("com.mysql.jdbc.Driver").newInstance();
                               conn = DriverManager.getConnection(url, username, password);
-                               if (conn.isValid(0)) {
-                                        System.out.println("Connected Successfully!");
-                               }
                                
-                              /*Statement stmt = conn.createStatement( );
-                              ResultSet result = stmt.executeQuery("SELECT * FROM badge WHERE id='3282F212'");
+                              Statement stmt = conn.createStatement( );
+                              ResultSet result = stmt.executeQuery("SELECT * FROM shift WHERE id='"+shiftid+"'");
                               if ( result != null ){
                                         result.next();
                                         String id = result.getString("id");
                                         String desc = result.getString("description");
-                              }*/
+                                        Time start = result.getTime("start");
+                                        Time stop = result.getTime("stop");
+                                        int interval = result.getInt("interval");
+                                        int gracePeriod = result.getInt("graceperiod");
+                                        int dock = result.getInt("dock");
+                                        Time lunchStart = result.getTime("lunchstart");
+                                        Time lunchStop = result.getTime("lunchstop");
+                                        int lunchDeduct = result.getInt("lunchDeduct");
+                                        System.out.println("Shift = ID: "+id+" Description: "+ desc +" Start: " + start + " Stop:" +stop+" Interval" + interval + " GracePeriod: " + gracePeriod + " Dock:" + dock + " LunchStart" + lunchStart + " LunchStop: " + lunchStop + " LunchDeduct: " + lunchDeduct);
+                                       shift = new Shift(id,desc,start,stop,interval,gracePeriod,dock,lunchStart,lunchStop,lunchDeduct);
+                                          
+                              }
+                              conn.close( );
+                
+                    }
+                    
+                    catch (Exception e){
+                              System.err.println(e.toString());
+                              
+                    }
+                   
+                   finally {
+            
+                              if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
+            
+                              if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
+            
+                              if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
+            
+                    }
+                    return shift;
+          }
+          
+          /*public Shift getShift(Badge Badge){
+                    Connection conn = null;
+                    PreparedStatement pstSelect = null, pstUpdate = null;
+                    ResultSet resultset = null;
+                     Shift shift = null;
+                    try{ 
+                             
+                              String url = "jdbc:mysql://localhost/tas";
+                              String username = "tasuser";
+                              String password = "teamE";
+                              
+          
+                              Class.forName("com.mysql.jdbc.Driver").newInstance();
+                              conn = DriverManager.getConnection(url, username, password);
+                   
+                             
+                              Statement stmt = conn.createStatement( );
+                              ResultSet result = stmt.executeQuery("SELECT * FROM shift WHERE id= '"+Badge.getID()+"'");
+                              if ( result != null ){
+                                        result.next();
+                                        String id = result.getString("id");
+                                        String desc = result.getString("description");
+                                        
+                                        System.out.println("Badge = ID: "+id+" Description: "+ desc);
+                                          shift = new Shift();
+                                          
+                              }
+                             
+                              
+                              conn.close( );
+                
+                    }
+                    
+                    catch (Exception e){
+                              System.err.println(e.toString());
+                              return null;
+                    }
+                   
+                   finally {
+            
+                              if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
+            
+                              if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
+            
+                              if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
+            
+                    }
+                    
+                    return shift;
+                   
+          }*/
+          
+          public Badge getBadge(String badgeid){
+                    Connection conn = null;
+                    PreparedStatement pstSelect = null, pstUpdate = null;
+                    ResultSet resultset = null;
+                     Badge badge = null;
+                    try{ 
+                             
+                              String url = "jdbc:mysql://localhost/tas";
+                              String username = "tasuser";
+                              String password = "teamE";
+                              
+          
+                              Class.forName("com.mysql.jdbc.Driver").newInstance();
+                              conn = DriverManager.getConnection(url, username, password);
+                   
+                             
+                              Statement stmt = conn.createStatement( );
+                              ResultSet result = stmt.executeQuery("SELECT * FROM badge WHERE id= '"+badgeid+"'");
+                              if ( result != null ){
+                                        result.next();
+                                        String id = result.getString("id");
+                                        String desc = result.getString("description");
+                                        
+                                        System.out.println("Badge = ID: "+id+" Description: "+ desc);
+                                          badge = new Badge(id,desc);
+                                          
+                              }
+                             
+                              
+                              conn.close( );
+                
+                    }
+                    
+                    catch (Exception e){
+                              System.err.println(e.toString());
+                              return null;
+                    }
+                   
+                   finally {
+            
+                              if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
+            
+                              if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
+            
+                              if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
+            
+                    }
+                    
+                    return badge;
+                    
+          }
+          
+          public Punch getPunch(int punchId){
+                   
+                    Connection conn = null;
+                    PreparedStatement pstSelect = null, pstUpdate = null;
+                    ResultSet resultset = null;
+                   Punch punch = null;
+                    try{ 
+                             
+                              String url = "jdbc:mysql://localhost/tas";
+                              String username = "tasuser";
+                              String password = "teamE";
+                
+          
+                              Class.forName("com.mysql.jdbc.Driver").newInstance();
+                              conn = DriverManager.getConnection(url, username, password);
+                           
+                               
+                              Statement stmt = conn.createStatement( );
+                              ResultSet result = stmt.executeQuery("SELECT * FROM punch WHERE id='"+punchId+"'");
+                              if ( result != null ){
+                                        result.next();
+                                        int punchTypeId = result.getInt("punchtypeid");
+                                        int terminalid = result.getInt("terminalid");
+                                        String badgeId = result.getString("badgeid");
+                                        Badge badge = getBadge(badgeId);
+                                        System.out.println(" Punch = Badge: " + badge+" --PunchTypeID: "+punchTypeId+" TerminalID: "+ terminalid);
+                                         punch = new Punch(badge, terminalid,punchTypeId);
+                                          
+                              }
                               
                               conn.close( );
                               
                     }
-                   
-                   catch (Exception e){
+                    catch (Exception e){
                               System.err.println(e.toString());
                     }
                    
@@ -60,23 +228,7 @@ public class TASDatabase {
                               if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
             
                     }
-                   
-         }
-         
-          /*public Shift getShift(int punchtypeid){
-                    
+                    return punch;
           }
-          
-          public Shift getShift(Badge Badge){
-                    
-          }
-          
-          public Badge getBadge(String Badge){
-                    //return Badge;
-          }
-          
-          public Punch getPunch(int punchtypeid){
-                    
-          }*/
           
 }
