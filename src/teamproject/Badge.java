@@ -10,6 +10,29 @@ package teamproject;
  * @author Chase Sparks
  */
 public class Badge {
+    
+    private String id;
+    private String description;
+    
+      public void setID(String newID){
+        this.id = newID;
+    }
+    public String getID(){
+        return id;
+    }
+    public void setDescrip(String newDescrip){
+        this.description = newDescrip;
+    }
+    public String getDescrip(){
+        return description;
+    }
+
+    
+    public Badge(String id, String description){
+        this.id = id;
+        this.description = description;
+        
+    }
 
     private String id;
     private String description;
