@@ -12,16 +12,17 @@ package teamproject;
 
 
 import java.sql.*;
-import java.util.Date;
 
 public class TASDatabase {
          
          
          public static void TASDatabase(){
-                    TASDatabase db = new TASDatabase();
+                   TASDatabase db = new TASDatabase();
                    db.getPunch(258);
-                   db.getBadge("021890C0");
+                   Badge badge;
+                   badge = db.getBadge("021890C0");
                    db.getShift(1);
+                   db.getShift(badge);
          }
          
           public Shift getShift(int shiftid){
@@ -78,11 +79,12 @@ public class TASDatabase {
                     return shift;
           }
           
-          /*public Shift getShift(Badge Badge){
+          public Shift getShift(Badge Badge){
                     Connection conn = null;
                     PreparedStatement pstSelect = null, pstUpdate = null;
                     ResultSet resultset = null;
                      Shift shift = null;
+                     
                     try{ 
                              
                               String url = "jdbc:mysql://localhost/tas";
@@ -95,14 +97,28 @@ public class TASDatabase {
                    
                              
                               Statement stmt = conn.createStatement( );
-                              ResultSet result = stmt.executeQuery("SELECT * FROM shift WHERE id= '"+Badge.getID()+"'");
+                              String badgeid = Badge.getID();
+                              ResultSet result = stmt.executeQuery("SELECT * FROM employee WHERE badgeid= '"+badgeid+"'");
+                              String shiftid = null;
+                              if (result != null){
+                                        result.next();
+                                        shiftid = result.getString("shiftid");
+                              }
+                              result = stmt.executeQuery("SELECT * FROM shift WHERE id= '"+shiftid+"'");
                               if ( result != null ){
                                         result.next();
                                         String id = result.getString("id");
                                         String desc = result.getString("description");
-                                        
-                                        System.out.println("Badge = ID: "+id+" Description: "+ desc);
-                                          shift = new Shift();
+                                        Time start = result.getTime("start");
+                                        Time stop = result.getTime("stop");
+                                        int interval = result.getInt("interval");
+                                        int gracePeriod = result.getInt("graceperiod");
+                                        int dock = result.getInt("dock");
+                                        Time lunchStart = result.getTime("lunchstart");
+                                        Time lunchStop = result.getTime("lunchstop");
+                                        int lunchDeduct = result.getInt("lunchDeduct");
+                                        System.out.println("Shift = ID: "+id+" Description: "+ desc +" Start: " + start + " Stop:" +stop+" Interval" + interval + " GracePeriod: " + gracePeriod + " Dock:" + dock + " LunchStart" + lunchStart + " LunchStop: " + lunchStop + " LunchDeduct: " + lunchDeduct);
+                                       shift = new Shift(id,desc,start,stop,interval,gracePeriod,dock,lunchStart,lunchStop,lunchDeduct);
                                           
                               }
                              
@@ -113,7 +129,7 @@ public class TASDatabase {
                     
                     catch (Exception e){
                               System.err.println(e.toString());
-                              return null;
+                              
                     }
                    
                    finally {
@@ -128,7 +144,7 @@ public class TASDatabase {
                     
                     return shift;
                    
-          }*/
+          }
           
           public Badge getBadge(String badgeid){
                     Connection conn = null;
@@ -207,7 +223,7 @@ public class TASDatabase {
                                         int terminalid = result.getInt("terminalid");
                                         String badgeId = result.getString("badgeid");
                                         Badge badge = getBadge(badgeId);
-                                        System.out.println(" Punch = Badge: " + badge+" --PunchTypeID: "+punchTypeId+" TerminalID: "+ terminalid);
+                                        System.out.println(" Punch = Badge: " + badge+" PunchTypeID: "+punchTypeId+" TerminalID: "+ terminalid);
                                          punch = new Punch(badge, terminalid,punchTypeId);
                                           
                               }
