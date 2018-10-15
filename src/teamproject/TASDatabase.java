@@ -219,12 +219,16 @@ public class TASDatabase {
                               ResultSet result = stmt.executeQuery("SELECT * FROM punch WHERE id='"+punchId+"'");
                               if ( result != null ){
                                         result.next();
+                                        int id = result.getInt("id");
+                                        Timestamp timeStamp = result.getTimestamp("originaltimestamp");
+                                        
                                         int punchTypeId = result.getInt("punchtypeid");
                                         int terminalid = result.getInt("terminalid");
                                         String badgeId = result.getString("badgeid");
+                                        
                                         Badge badge = getBadge(badgeId);
                                         System.out.println(" Punch = Badge: " + badge+" PunchTypeID: "+punchTypeId+" TerminalID: "+ terminalid);
-                                         punch = new Punch(badge, terminalid,punchTypeId);
+                                         punch = new Punch(id, badge, terminalid, timeStamp, punchTypeId);
                                           
                               }
                               

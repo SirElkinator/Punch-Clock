@@ -11,7 +11,7 @@ import java.sql.*;
  * @author Chase Sparks
  */
 public class Shift {
-           private String id;
+    private String id;
     private String description;
     private Time start;
     private Time stop;
@@ -21,6 +21,8 @@ public class Shift {
     private Time lunchStart;
     private Time lunchStop;
     private int deduct;
+    
+  
           Shift(String id, String desc, Time start, Time stop, int interval, int grace, int dock, Time lunchStart, Time lunchStop, int deduct){
                     this.id = id;
                     this.description = desc;
@@ -36,7 +38,8 @@ public class Shift {
           @Override
     public String toString(){
            String shift;
-           shift =  description+ ": "+start+" - "+stop + "(" + "); Lunch: " + lunchStart + " - " + lunchStop + "( )";
+           
+           shift =  description+ ": "+start.getHours()+":"+start.getMinutes()+" - "+stop.getHours()+":"+stop.getMinutes()+ "(" +stop.compareTo(start)+ " minutes); Lunch: " + lunchStart.getHours()+":"+lunchStart.getMinutes()+ " - " + lunchStop.getHours()+":"+lunchStop.getMinutes()+ "(" +lunchStop.compareTo(lunchStart)+" minutes)";
            return shift;
     }
 }
