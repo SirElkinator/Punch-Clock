@@ -47,6 +47,7 @@ public class TASDatabase {
                                         String id = result.getString("id");
                                         String desc = result.getString("description");
                                         Time start = result.getTime("start");
+                                        
                                         Time stop = result.getTime("stop");
                                         int interval = result.getInt("interval");
                                         int gracePeriod = result.getInt("graceperiod");
@@ -216,19 +217,18 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                              ResultSet result = stmt.executeQuery("SELECT * FROM punch WHERE id='"+punchId+"'");
+                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts FROM punch WHERE id='"+punchId+"'");
                               if ( result != null ){
                                         result.next();
                                         int id = result.getInt("id");
-                                        Timestamp timeStamp = result.getTimestamp("originaltimestamp");
-                                        
+                                        long ts = result.getLong("ts");
                                         int punchTypeId = result.getInt("punchtypeid");
                                         int terminalid = result.getInt("terminalid");
                                         String badgeId = result.getString("badgeid");
                                         
                                         Badge badge = getBadge(badgeId);
                                         System.out.println(" Punch = Badge: " + badge+" PunchTypeID: "+punchTypeId+" TerminalID: "+ terminalid);
-                                         punch = new Punch(id, badge, terminalid, timeStamp, punchTypeId);
+                                         punch = new Punch(id, badge, terminalid, ts, punchTypeId);
                                           
                               }
                               

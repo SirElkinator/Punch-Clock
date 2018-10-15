@@ -17,22 +17,25 @@ public class Punch {
         private int punchtype;
         private int terminal;
         private int id;
-        private Timestamp timeStamp;
+        private long ts;
         GregorianCalendar gcal;
         
         //private Time original_timestamp;
-          Punch(int id, Badge badge, int terminalid, Timestamp timeStamp, int punchtypeid){
+          Punch(int id, Badge badge, int terminalid, long ts, int punchtypeid){
                this.badgeid = badge.getID();
                this.punchtype = punchtypeid;
-               this.timeStamp = timeStamp;
                this.id = id;
                this.terminal = terminalid;
+               this.ts = ts;
+               
                
           }
           
           public String printOriginalTimestamp(){
               String punch = null;
               gcal = new GregorianCalendar();
+              gcal.setTimeInMillis(ts);
+             
               if (punchtype == 0){
               punch = "#"+badgeid+"CLOCKED OUT: "+gcal.getTime();
               }

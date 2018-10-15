@@ -39,7 +39,7 @@ public class Shift {
     public String toString(){
            String shift;
            
-           shift =  description+ ": "+start.getHours()+":"+start.getMinutes()+" - "+stop.getHours()+":"+stop.getMinutes()+ "(" +stop.compareTo(start)+ " minutes); Lunch: " + lunchStart.getHours()+":"+lunchStart.getMinutes()+ " - " + lunchStop.getHours()+":"+lunchStop.getMinutes()+ "(" +lunchStop.compareTo(lunchStart)+" minutes)";
+           shift =  description+ ": "+start+" - "+stop+ " (" +stop.compareTo(start)+ " minutes); Lunch: " + lunchStart+":"+ " - " + lunchStop+":"+ " (" +lunchStop.compareTo(lunchStart)+" minutes)";
            return shift;
     }
 }
