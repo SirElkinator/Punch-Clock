@@ -13,7 +13,8 @@ import java.sql.*;
 public class Shift {
     private String id;
     private String description;
-    private Time start;
+    private int startHour;
+    private int startMinute;
     private Time stop;
     private int interval;
     private int grace;
@@ -23,10 +24,11 @@ public class Shift {
     private int deduct;
     
   
-          Shift(String id, String desc, Time start, Time stop, int interval, int grace, int dock, Time lunchStart, Time lunchStop, int deduct){
+          Shift(String id, String desc, int startHour, int startMinute, Time stop, int interval, int grace, int dock, Time lunchStart, Time lunchStop, int deduct){
                     this.id = id;
                     this.description = desc;
-                    this.start = start;
+                    this.startHour = startHour;
+                    this.startMinute = startMinute;
                     this.stop = stop;
                     this.interval = interval;
                     this.grace = grace;
@@ -39,7 +41,7 @@ public class Shift {
     public String toString(){
            String shift;
            
-           shift =  description+ ": "+start+" - "+stop+ " (" +stop.compareTo(start)+ " minutes); Lunch: " + lunchStart+":"+ " - " + lunchStop+":"+ " (" +lunchStop.compareTo(lunchStart)+" minutes)";
+           shift =  description+ ": "+startHour+":"+startMinute+" - "+stop+ " (" + " minutes); Lunch: " + lunchStart+":"+ " - " + lunchStop+":"+ " (" +lunchStop.compareTo(lunchStart)+" minutes)";
            return shift;
     }
 }

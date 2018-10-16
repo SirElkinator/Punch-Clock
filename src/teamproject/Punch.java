@@ -6,6 +6,7 @@
 package teamproject;
 
 import java.sql.*;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 /**
  *
@@ -21,7 +22,7 @@ public class Punch {
         GregorianCalendar gcal;
         
         //private Time original_timestamp;
-          Punch(int id, Badge badge, int terminalid, long ts, int punchtypeid){
+          public Punch(Badge badge, int terminalid, int punchtypeid){
                this.badgeid = badge.getID();
                this.punchtype = punchtypeid;
                this.id = id;
@@ -30,12 +31,19 @@ public class Punch {
                
                
           }
+          public void setTS(long ts){
+                    this.ts = ts;
+          }
+          public void setId(int id){
+                    this.id = id;
+          }
           
           public String printOriginalTimestamp(){
               String punch = null;
               gcal = new GregorianCalendar();
               gcal.setTimeInMillis(ts);
-             
+              DateTimeFormatter formatterOutput = DateTimeFormatter.ISO_LOCAL_DATE;
+              
               if (punchtype == 0){
               punch = "#"+badgeid+"CLOCKED OUT: "+gcal.getTime();
               }
@@ -45,6 +53,6 @@ public class Punch {
               if (punchtype == 2){
               punch = "#"+badgeid+"TIMED OUT: "+gcal.getTime();
               }
-              return punch;
+              return punch.toUpperCase();
           }
 }
