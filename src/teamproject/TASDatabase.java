@@ -7,7 +7,7 @@ package teamproject;
 
 /**
  *
- * @author Chase Sparks
+ * @author Chase Sparks, Richard Arredondo, Benjamin Baker, Raushaod Merritt, Andrew Reese
  */
 
 
@@ -41,22 +41,23 @@ public class TASDatabase {
                               conn = DriverManager.getConnection(url, username, password);
                                
                               Statement stmt = conn.createStatement( );
-                              ResultSet result = stmt.executeQuery("SELECT *, HOUR(start) AS starthour, MINUTE(start) AS startminute FROM shift WHERE id='"+shiftid+"'");
+                              ResultSet result = stmt.executeQuery("SELECT * FROM shift WHERE id='"+shiftid+"'");
                               if ( result != null ){
                                         result.next();
                                         String id = result.getString("id");
                                         String desc = result.getString("description");
-                                        int startHour = result.getInt("starthour");
-                                        int startMinute = result.getInt("startminute");
-                                        Time stop = result.getTime("stop");
+                                        Time start= result.getTime("start");
+                                        Time stop= result.getTime("stop");
                                         int interval = result.getInt("interval");
                                         int gracePeriod = result.getInt("graceperiod");
                                         int dock = result.getInt("dock");
-                                        Time lunchStart = result.getTime("lunchstart");
+                                        Time lunchStart= result.getTime("lunchstart");
+                                       
                                         Time lunchStop = result.getTime("lunchstop");
+                                        
                                         int lunchDeduct = result.getInt("lunchDeduct");
-                                        System.out.println("Shift = ID: "+id+" Description: "+ desc +" Start: " + startHour + " Stop:" +stop+" Interval" + interval + " GracePeriod: " + gracePeriod + " Dock:" + dock + " LunchStart" + lunchStart + " LunchStop: " + lunchStop + " LunchDeduct: " + lunchDeduct);
-                                       shift = new Shift(id,desc,startHour,startMinute,stop,interval,gracePeriod,dock,lunchStart,lunchStop,lunchDeduct);
+                                        System.out.println("Shift = ID: "+id+" Description: "+ desc +" Start: " + start + " Stop:" +stop+" Interval" + interval + " GracePeriod: " + gracePeriod + " Dock:" + dock + " LunchStart" + lunchStart + " LunchStop: " + lunchStop + " LunchDeduct: " + lunchDeduct);
+                                       shift = new Shift(id,desc,start, stop, interval,gracePeriod,dock,lunchStart, lunchStop,lunchDeduct);
                                           
                               }
                               conn.close( );
@@ -105,13 +106,12 @@ public class TASDatabase {
                                         result.next();
                                         shiftid = result.getString("shiftid");
                               }
-                              result = stmt.executeQuery("SELECT *, HOUR(start) AS starthour, MINUTE(start) AS startminute FROM shift WHERE id= '"+shiftid+"'");
+                              result = stmt.executeQuery("SELECT * FROM shift WHERE id= '"+shiftid+"'");
                               if ( result != null ){
                                         result.next();
                                         String id = result.getString("id");
                                         String desc = result.getString("description");
-                                        int startHour = result.getInt("starthour");
-                                        int startMinute = result.getInt("startminute");
+                                        Time start= result.getTime("start");
                                         Time stop = result.getTime("stop");
                                         int interval = result.getInt("interval");
                                         int gracePeriod = result.getInt("graceperiod");
@@ -119,8 +119,8 @@ public class TASDatabase {
                                         Time lunchStart = result.getTime("lunchstart");
                                         Time lunchStop = result.getTime("lunchstop");
                                         int lunchDeduct = result.getInt("lunchDeduct");
-                                        System.out.println("Shift = ID: "+id+" Description: "+ desc +" Start: " + startHour + " Stop:" +stop+" Interval" + interval + " GracePeriod: " + gracePeriod + " Dock:" + dock + " LunchStart" + lunchStart + " LunchStop: " + lunchStop + " LunchDeduct: " + lunchDeduct);
-                                       shift = new Shift(id,desc,startHour,startMinute,stop,interval,gracePeriod,dock,lunchStart,lunchStop,lunchDeduct);
+                                        System.out.println("Shift = ID: "+id+" Description: "+ desc +" Start: " + start + " Stop:" +stop+" Interval" + interval + " GracePeriod: " + gracePeriod + " Dock:" + dock + " LunchStart" + lunchStart + " LunchStop: " + lunchStop + " LunchDeduct: " + lunchDeduct);
+                                       shift = new Shift(id,desc,start, stop,interval,gracePeriod,dock,lunchStart,lunchStop,lunchDeduct);
                                           
                               }
                              
