@@ -41,7 +41,7 @@ public class Shift {
     public String toString(){
            String shift;
            
-           shift =  description+": "+start.getHours()+":"+start.getMinutes()+" - "+stop.getHours()+":"+stop.getMinutes()+ " (" +((stop.getTime()-start.getTime()) /1000 /60)+" minutes); Lunch: " + lunchStart.getHours()+":"+lunchStart.getMinutes()+ " - " + lunchStop.getHours()+":"+ lunchStop.getMinutes()+" (" +((lunchStop.getTime()-lunchStart.getTime()) /1000 /60)+" minutes)";
+           shift =  description+": "+start+" - "+stop.getHours()+":"+stop.getMinutes()+ " (" +((stop.getTime()-start.getTime()) /1000 /60)+" minutes); Lunch: " + lunchStart.getHours()+":"+lunchStart.getMinutes()+ " - " + lunchStop.getHours()+":"+ lunchStop.getMinutes()+" (" +((lunchStop.getTime()-lunchStart.getTime()) /1000 /60)+" minutes)";
            return shift;
     }
 }

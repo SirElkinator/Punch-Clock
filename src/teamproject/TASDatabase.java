@@ -112,6 +112,7 @@ public class TASDatabase {
                                         String id = result.getString("id");
                                         String desc = result.getString("description");
                                         Time start= result.getTime("start");
+                                        
                                         Time stop = result.getTime("stop");
                                         int interval = result.getInt("interval");
                                         int gracePeriod = result.getInt("graceperiod");

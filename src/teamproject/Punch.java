@@ -7,6 +7,7 @@ package teamproject;
 
 import java.sql.*;
 import java.time.format.DateTimeFormatter;
+import java.time.temporal.TemporalAccessor;
 import java.util.*;
 /**
  *
@@ -42,16 +43,15 @@ public class Punch {
               String punch = null;
               gcal = new GregorianCalendar();
               gcal.setTimeInMillis(ts);
-              DateTimeFormatter formatterOutput = DateTimeFormatter.ISO_LOCAL_DATE;
               
               if (punchtype == 0){
-              punch = "#"+badgeid+"CLOCKED OUT: "+gcal.getTime();
+              punch = "#"+badgeid+" CLOCKED OUT: "+gcal.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));;
               }
               if (punchtype == 1){
-              punch = "#"+badgeid+" CLOCKED IN: "+gcal.getTime();
+              punch = "#"+badgeid+" CLOCKED IN: "+gcal.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));;
               }
               if (punchtype == 2){
-              punch = "#"+badgeid+"TIMED OUT: "+gcal.getTime();
+              punch = "#"+badgeid+" TIMED OUT: "+gcal.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));;
               }
               return punch.toUpperCase();
           }
