@@ -58,4 +58,18 @@ public class Punch {
               
           }
           
+          public int getTerminalid(){
+              return this.terminal;
+          }
+          public int getPunchtypeid(){
+              return this.punchtype;
+          }
+          public String getBadgeid(){
+              return this.badgeid;
+          }
+          public long getOriginaltimestamp(){
+              return this.ts;
+          }
+             
+          
 }

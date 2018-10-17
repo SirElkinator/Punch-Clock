@@ -242,4 +242,53 @@ public class TASDatabase {
                     return punch;
           }
           
+          public int insertPunch(Punch p){
+               Connection conn = null;
+                    PreparedStatement pstSelect = null, pstUpdate = null;
+                    ResultSet resultset = null;
+                   Punch punchid = null;
+                    try{ 
+                             
+                              String url = "jdbc:mysql://localhost/tas";
+                              String username = "tasuser";
+                              String password = "teamE";
+                
+          
+                              Class.forName("com.mysql.jdbc.Driver").newInstance();
+                              conn = DriverManager.getConnection(url, username, password);
+                           
+                               
+                              Statement stmt = conn.createStatement( );
+                              ResultSet result = stmt.executeQuery("INSERT INTO punch (Badgeid, terminalid, originaltimestamp, punchtypeid) VALUES (?, ?)");
+                              if ( result != null ){
+                                        result.next();
+                                        int id = result.getInt("id");
+                                        long ts = result.getLong("ts");
+                                        int punchTypeId = result.getInt("punchtypeid");
+                                        int terminalid = result.getInt("terminalid");
+                                        String badgeId = result.getString("badgeid");
+                                        Badge badge = getBadge(badgeId);punch = new Punch(badge, terminalid, punchTypeId);
+                                          punch.setId(id);
+                                          punch.setTS(ts);
+                              }
+                              
+                              conn.close( );
+                              
+                    }
+                    catch (Exception e){
+                              System.err.println(e.toString());
+                    }
+                   
+                   finally {
+            
+                              if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
+            
+                              if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
+            
+                              if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
+            
+                    }
+                    return punchid;
+          }
+          
 }
