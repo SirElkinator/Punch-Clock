@@ -4,14 +4,14 @@
  * and open the template in the editor.
  */
 package teamproject;
-import java.util.Date;
 import java.sql.*;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 /**
  *
  * @author Chase Sparks, Richard Arredondo, Benjamin Baker, Raushaod Merritt, Andrew Reese
  */
 public class Shift {
+          
     private String id;
     private String description;
     private Time start;
@@ -22,8 +22,9 @@ public class Shift {
     private Time lunchStart;
     private Time lunchStop;
     private int deduct;
-  
+    
           Shift(String id, String desc, Time start, Time stop, int interval, int grace, int dock, Time lunchStart, Time lunchStop, int deduct){
+                    
                     this.id = id;
                     this.description = desc;
                     this.start= start;
@@ -34,14 +35,20 @@ public class Shift {
                     this.lunchStart = lunchStart;
                     this.lunchStop = lunchStop;
                     this.deduct = deduct;
-                   
-                   
+                
           }
+          
           @Override
-    public String toString(){
-           String shift;
-           
-           shift =  description+": "+start+" - "+stop.getHours()+":"+stop.getMinutes()+ " (" +((stop.getTime()-start.getTime()) /1000 /60)+" minutes); Lunch: " + lunchStart.getHours()+":"+lunchStart.getMinutes()+ " - " + lunchStop.getHours()+":"+ lunchStop.getMinutes()+" (" +((lunchStop.getTime()-lunchStart.getTime()) /1000 /60)+" minutes)";
-           return shift;
-    }
+          public String toString(){
+         
+                    String shift;
+                    String startString = (new SimpleDateFormat("HH:mm")).format(start.getTime());
+                    String stopString = (new SimpleDateFormat("HH:mm")).format(stop.getTime());
+                    String lunchStartString = (new SimpleDateFormat("HH:mm")).format(lunchStart.getTime());
+                    String lunchStopString = (new SimpleDateFormat("HH:mm")).format(lunchStop.getTime());
+                    shift =  description+": "+startString+" - "+stopString+" (" +((stop.getTime()-start.getTime()) /1000 /60)+" minutes); Lunch: " + lunchStartString+ " - " + lunchStopString+" (" +((lunchStop.getTime()-lunchStart.getTime()) /1000 /60)+" minutes)";
+                    return shift;
+                    
+          }
+          
 }

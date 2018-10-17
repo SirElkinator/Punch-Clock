@@ -17,12 +17,8 @@ public class TASDatabase {
          
          
          public static void TASDatabase(){
-                   TASDatabase db = new TASDatabase();
-                   db.getPunch(258);
-                   Badge badge;
-                   badge = db.getBadge("021890C0");
-                   db.getShift(1);
-                   db.getShift(badge);
+                   //TASDatabase db = new TASDatabase();
+                   
          }
          
           public Shift getShift(int shiftid){
@@ -56,8 +52,7 @@ public class TASDatabase {
                                         Time lunchStop = result.getTime("lunchstop");
                                         
                                         int lunchDeduct = result.getInt("lunchDeduct");
-                                        System.out.println("Shift = ID: "+id+" Description: "+ desc +" Start: " + start + " Stop:" +stop+" Interval" + interval + " GracePeriod: " + gracePeriod + " Dock:" + dock + " LunchStart" + lunchStart + " LunchStop: " + lunchStop + " LunchDeduct: " + lunchDeduct);
-                                       shift = new Shift(id,desc,start, stop, interval,gracePeriod,dock,lunchStart, lunchStop,lunchDeduct);
+                                        shift = new Shift(id,desc,start, stop, interval,gracePeriod,dock,lunchStart, lunchStop,lunchDeduct);
                                           
                               }
                               conn.close( );
@@ -112,7 +107,6 @@ public class TASDatabase {
                                         String id = result.getString("id");
                                         String desc = result.getString("description");
                                         Time start= result.getTime("start");
-                                        
                                         Time stop = result.getTime("stop");
                                         int interval = result.getInt("interval");
                                         int gracePeriod = result.getInt("graceperiod");
@@ -120,8 +114,7 @@ public class TASDatabase {
                                         Time lunchStart = result.getTime("lunchstart");
                                         Time lunchStop = result.getTime("lunchstop");
                                         int lunchDeduct = result.getInt("lunchDeduct");
-                                        System.out.println("Shift = ID: "+id+" Description: "+ desc +" Start: " + start + " Stop:" +stop+" Interval" + interval + " GracePeriod: " + gracePeriod + " Dock:" + dock + " LunchStart" + lunchStart + " LunchStop: " + lunchStop + " LunchDeduct: " + lunchDeduct);
-                                       shift = new Shift(id,desc,start, stop,interval,gracePeriod,dock,lunchStart,lunchStop,lunchDeduct);
+                                         shift = new Shift(id,desc,start, stop,interval,gracePeriod,dock,lunchStart,lunchStop,lunchDeduct);
                                           
                               }
                              
@@ -131,8 +124,7 @@ public class TASDatabase {
                     }
                     
                     catch (Exception e){
-                              System.err.println(e.toString());
-                              
+                              System.err.println(e.toString());    
                     }
                    
                    finally {
@@ -172,8 +164,7 @@ public class TASDatabase {
                                         String id = result.getString("id");
                                         String desc = result.getString("description");
                                         
-                                        System.out.println("Badge = ID: "+id+" Description: "+ desc);
-                                          badge = new Badge(id,desc);
+                                        badge = new Badge(id,desc);
                                           
                               }
                              
@@ -227,9 +218,7 @@ public class TASDatabase {
                                         int punchTypeId = result.getInt("punchtypeid");
                                         int terminalid = result.getInt("terminalid");
                                         String badgeId = result.getString("badgeid");
-                                        Badge badge = getBadge(badgeId);
-                                        System.out.println(" Punch = Badge: " + badge+" PunchTypeID: "+punchTypeId+" TerminalID: "+ terminalid);
-                                         punch = new Punch(badge, terminalid, punchTypeId);
+                                        Badge badge = getBadge(badgeId);punch = new Punch(badge, terminalid, punchTypeId);
                                           punch.setId(id);
                                           punch.setTS(ts);
                               }

@@ -27,19 +27,20 @@ public class Badge {
         return description;
     }
 
-    
     public Badge(String id, String description){
-        this.id = id;
+    
+          this.id = id;
         this.description = description;
         
     }
     
     @Override
     public String toString(){
+           
            String badge;
            badge = "#"+id +" ("+ description+")";
            return badge;
-
-          
+  
     }
+    
 }
