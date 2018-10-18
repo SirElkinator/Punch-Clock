@@ -70,6 +70,8 @@ public class Punch {
           public long getOriginaltimestamp(){
               return this.ts;
           }
-             
+          public int getId(){
+                    return this.id;
+          }
           
 }

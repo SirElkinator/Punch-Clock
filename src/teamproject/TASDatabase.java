@@ -243,11 +243,21 @@ public class TASDatabase {
           }
           
           public int insertPunch(Punch p){
-               Connection conn = null;
+                    
+                    Connection conn = null;
                     PreparedStatement pstSelect = null, pstUpdate = null;
                     ResultSet resultset = null;
-                   Punch punchid = null;
-                    try{ 
+                    String query;
+                    int updateCount = 0;
+                   Punch punch = p;
+                   
+                  int id = punch.getId();
+                  long ts = punch.getOriginaltimestamp();
+                  int punchTypeId = punch.getPunchtypeid();
+                  String badgeId = punch.getBadgeid();
+                  int terminalid = punch.getTerminalid();
+                    
+                   try{ 
                              
                               String url = "jdbc:mysql://localhost/tas";
                               String username = "tasuser";
@@ -259,22 +269,27 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                              ResultSet result = stmt.executeQuery("INSERT INTO punch (Badgeid, terminalid, originaltimestamp, punchtypeid) VALUES (?, ?)");
-                              if ( result != null ){
-                                        result.next();
-                                        int id = result.getInt("id");
-                                        long ts = result.getLong("ts");
-                                        int punchTypeId = result.getInt("punchtypeid");
-                                        int terminalid = result.getInt("terminalid");
-                                        String badgeId = result.getString("badgeid");
-                                        Badge badge = getBadge(badgeId);punch = new Punch(badge, terminalid, punchTypeId);
-                                          punch.setId(id);
-                                          punch.setTS(ts);
-                              }
-                              
+                             query = "INSERT INTO punch (id, terminalid, badgeid, originaltimestamp, punchtypeid) VALUES (?, ?, ?, ?, ?)";
+                              pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                     
+                              pstUpdate.setInt(1, id);
+                              pstUpdate.setInt(2, terminalid);
+                              pstUpdate.setString(3,badgeId);
+                               pstUpdate.setLong(4,ts);
+                               pstUpdate.setInt(5,punchTypeId);
+                               
+                                 // Get New Key; Print To Console
+                              updateCount = pstUpdate.executeUpdate();
+                              if (updateCount > 0) {
+            
+                                        resultset = pstUpdate.getGeneratedKeys();
+
+                                }
+                
                               conn.close( );
                               
                     }
+                   
                     catch (Exception e){
                               System.err.println(e.toString());
                     }
@@ -288,7 +303,9 @@ public class TASDatabase {
                               if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
             
                     }
-                    return punchid;
+                   
+                    return id;
+                    
           }
           
 }
