@@ -215,12 +215,14 @@ public class TASDatabase {
                                         result.next();
                                         int id = result.getInt("id");
                                         long ts = result.getLong("ts");
+                                        Timestamp ots = result.getTimestamp("originaltimestamp");
                                         int punchTypeId = result.getInt("punchtypeid");
                                         int terminalid = result.getInt("terminalid");
                                         String badgeId = result.getString("badgeid");
                                         Badge badge = getBadge(badgeId);punch = new Punch(badge, terminalid, punchTypeId);
                                           punch.setId(id);
                                           punch.setTS(ts);
+                                          punch.setOTS(ots);
                               }
                               
                               conn.close( );
@@ -251,8 +253,8 @@ public class TASDatabase {
                     int updateCount = 0;
                    Punch punch = p;
                    
-                  int id = punch.getId();
-                  long ts = punch.getOriginaltimestamp();
+                  int id = 6898;
+                  //long ts = punch.getOriginaltimestamp();
                   int punchTypeId = punch.getPunchtypeid();
                   String badgeId = punch.getBadgeid();
                   int terminalid = punch.getTerminalid();
@@ -269,23 +271,29 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                             query = "INSERT INTO punch (id, terminalid, badgeid, originaltimestamp, punchtypeid) VALUES (?, ?, ?, ?, ?)";
+                              query = "INSERT INTO punch ( badgeid, terminalid, punchtypeid) VALUES (?, ?, ?)";
                               pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                      
-                              pstUpdate.setInt(1, id);
-                              pstUpdate.setInt(2, terminalid);
-                              pstUpdate.setString(3,badgeId);
-                               pstUpdate.setLong(4,ts);
-                               pstUpdate.setInt(5,punchTypeId);
+                              pstUpdate.setString(1,badgeId);
+                              pstUpdate.setInt(2, terminalid);                        
+                              //pstUpdate.setLong(3,ts);
+                              pstUpdate.setInt(3,punchTypeId);
                                
                                  // Get New Key; Print To Console
                               updateCount = pstUpdate.executeUpdate();
                               if (updateCount > 0) {
             
-                                        resultset = pstUpdate.getGeneratedKeys();
+                                    resultset = pstUpdate.getGeneratedKeys();
+                                    
 
-                                }
-                
+                              }
+                              ResultSet result = stmt.executeQuery("SELECT * FROM punch WHERE id='"+id+"'");
+                             // pstUpdate = conn.prepareStatement(query);
+                              if (result != null){
+                                  result.next();
+                                       // System.out.println(resultset.getInt("id"));
+                                        id = result.getInt("id");
+                                    }
                               conn.close( );
                               
                     }

@@ -5,6 +5,7 @@
  */
 package teamproject;
 
+import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 /**
@@ -18,6 +19,7 @@ public class Punch {
         private int terminal;
         private int id;
         private long ts;
+        private Timestamp ots;
         GregorianCalendar gcal;
         
         //private Time original_timestamp;
@@ -38,7 +40,9 @@ public class Punch {
           public void setId(int id){
                     this.id = id;
           }
-          
+          public void setOTS(Timestamp ots){
+              this.ots = ots;
+          }
           public String printOriginalTimestamp(){
               
               String punch = null;
@@ -72,6 +76,9 @@ public class Punch {
           }
           public int getId(){
                     return this.id;
+          }
+          public Timestamp getOTS(){
+              return this.ots;
           }
           
 }
