@@ -322,6 +322,7 @@ public class TASDatabase {
           public ArrayList getDailyPunchList(Badge b, long ts){
               
               b = db.getBadge(" ");
+             
               
               GregorianCalendar ts1 = new GregorianCalendar();
               GregorianCalendar ts2 = new GregorianCalendar();
