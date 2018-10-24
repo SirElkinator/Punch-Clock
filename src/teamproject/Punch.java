@@ -42,6 +42,7 @@ public class Punch {
           }
           public void setOTS(Timestamp ots){
               this.ots = ots;
+              System.out.println(ots);
           }
           public String printOriginalTimestamp(){
               

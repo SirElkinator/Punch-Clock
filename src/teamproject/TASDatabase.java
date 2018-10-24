@@ -253,8 +253,8 @@ public class TASDatabase {
                     int updateCount = 0;
                    Punch punch = p;
                    
-                  int id = 6898;
-                  //long ts = punch.getOriginaltimestamp();
+                  int id = 6895;
+                  Timestamp ots = punch.getOTS();
                   int punchTypeId = punch.getPunchtypeid();
                   String badgeId = punch.getBadgeid();
                   int terminalid = punch.getTerminalid();
@@ -271,13 +271,14 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                              query = "INSERT INTO punch ( badgeid, terminalid, punchtypeid) VALUES (?, ?, ?)";
+                              
+                              query = "INSERT INTO punch ( badgeid, terminalid, originaltimestamp, punchtypeid) VALUES (?, ?, ?, ?)";
                               pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                      
                               pstUpdate.setString(1,badgeId);
                               pstUpdate.setInt(2, terminalid);                        
-                              //pstUpdate.setLong(3,ts);
-                              pstUpdate.setInt(3,punchTypeId);
+                             pstUpdate.setTimestamp(3,ots);
+                              pstUpdate.setInt(4,punchTypeId);
                                
                                  // Get New Key; Print To Console
                               updateCount = pstUpdate.executeUpdate();
@@ -287,7 +288,7 @@ public class TASDatabase {
                                     
 
                               }
-                              ResultSet result = stmt.executeQuery("SELECT * FROM punch WHERE id='"+id+"'");
+                              ResultSet result = stmt.executeQuery("SELECT TOP 1 * FROM punch ORDER BY id DESC");
                              // pstUpdate = conn.prepareStatement(query);
                               if (result != null){
                                   result.next();
