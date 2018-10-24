@@ -78,8 +78,5 @@ public class Punch {
           public int getId(){
                     return this.id;
           }
-          public Timestamp getOTS(){
-              return this.ots;
-          }
           
 }

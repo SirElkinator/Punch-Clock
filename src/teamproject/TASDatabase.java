@@ -219,14 +219,12 @@ public class TASDatabase {
                                         result.next();
                                         int id = result.getInt("id");
                                         long ts = result.getLong("ts");
-                                        Timestamp ots = result.getTimestamp("originaltimestamp");
                                         int punchTypeId = result.getInt("punchtypeid");
                                         int terminalid = result.getInt("terminalid");
                                         String badgeId = result.getString("badgeid");
                                         Badge badge = getBadge(badgeId);punch = new Punch(badge, terminalid, punchTypeId);
                                           punch.setId(id);
                                           punch.setTS(ts);
-                                          punch.setOTS(ots);
                               }
                               
                               conn.close( );
@@ -258,7 +256,7 @@ public class TASDatabase {
                    Punch punch = p;
                    
                   int id = 0;
-                  Timestamp ots = punch.getOTS();
+                  Long ts = punch.getOriginaltimestamp();
                   int punchTypeId = punch.getPunchtypeid();
                   String badgeId = punch.getBadgeid();
                   int terminalid = punch.getTerminalid();
@@ -281,7 +279,7 @@ public class TASDatabase {
                      
                               pstUpdate.setString(1,badgeId);
                               pstUpdate.setInt(2, terminalid);                        
-                             pstUpdate.setTimestamp(3,ots);
+                             pstUpdate.setLong(3,ts);
                               pstUpdate.setInt(4,punchTypeId);
                                
                                  // Get New Key; Print To Console
@@ -293,12 +291,10 @@ public class TASDatabase {
 
                               }
                               ResultSet result = stmt.executeQuery("SELECT * FROM punch ORDER BY id DESC limit 1;");
-                             // pstUpdate = conn.prepareStatement(query);
                               if (result != null){
-                                  result.next();
-                                       // System.out.println(resultset.getInt("id"));
+                                        result.next();
                                         id = result.getInt("id");
-                                    }
+                               }
                               conn.close( );
                               
                     }
