@@ -12,14 +12,18 @@ package teamproject;
 
 
 import java.sql.*;
+import java.util.*;
 
 public class TASDatabase {
-         
+          private TASDatabase db;  
          
          public static void TASDatabase(){
-                   //TASDatabase db = new TASDatabase();
                    
          }
+         public void setting(){
+              db = new TASDatabase();
+         }
+          
          
           public Shift getShift(int shiftid){
                      
@@ -315,6 +319,35 @@ public class TASDatabase {
                    
                     return id;
                     
+          }
+          public ArrayList getDailyPunchList(Badge b, long ts){
+              
+              b = db.getBadge(" ");
+             
+              
+              GregorianCalendar ts1 = new GregorianCalendar();
+              GregorianCalendar ts2 = new GregorianCalendar();
+              
+               
+              
+              ts1.setTimeInMillis(ts);
+              ts2.setTimeInMillis(ts);
+              
+              ts1.set(Calendar.HOUR, 0);
+              ts1.set(Calendar.MINUTE, 0);
+              ts1.set(Calendar.SECOND, 0);
+              
+              ts2.set(Calendar.HOUR, 23);
+              ts2.set(Calendar.MINUTE, 59);
+              ts2.set(Calendar.SECOND, 0);
+              
+           /*   SELECT*FROM (punch){
+                WHERE UNIX_TIMESTAMP(ots) > ts2
+                ORDER BY originaltimestamp
+                LIMIT 1;        
+          }
+          */
+           return null;
           }
           
 }
