@@ -257,7 +257,7 @@ public class TASDatabase {
                     int updateCount = 0;
                    Punch punch = p;
                    
-                  int id = 6895;
+                  int id = 0;
                   Timestamp ots = punch.getOTS();
                   int punchTypeId = punch.getPunchtypeid();
                   String badgeId = punch.getBadgeid();
@@ -292,7 +292,7 @@ public class TASDatabase {
                                     
 
                               }
-                              ResultSet result = stmt.executeQuery("SELECT TOP 1 * FROM punch ORDER BY id DESC");
+                              ResultSet result = stmt.executeQuery("SELECT * FROM punch ORDER BY id DESC limit 1;");
                              // pstUpdate = conn.prepareStatement(query);
                               if (result != null){
                                   result.next();
