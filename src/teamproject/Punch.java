@@ -19,7 +19,6 @@ public class Punch {
         private int terminal;
         private int id;
         private long ts;
-        private Timestamp ots;
         GregorianCalendar gcal;
         
         //private Time original_timestamp;
@@ -40,10 +39,6 @@ public class Punch {
           public void setId(int id){
                     this.id = id;
           }
-          public void setOTS(Timestamp ots){
-              this.ots = ots;
-              System.out.println(ots);
-          }
           public String printOriginalTimestamp(){
               
               String punch = null;
@@ -61,6 +56,21 @@ public class Punch {
               }
               return punch.toUpperCase();
               
+          }
+          
+          public void adjust(Shift s) {
+        
+                    GregorianCalendar shiftStart = new GregorianCalendar();
+                    GregorianCalendar startDock = new GregorianCalendar();
+                    GregorianCalendar startInterval = new GregorianCalendar();
+                    GregorianCalendar startGrace = new GregorianCalendar();
+                    GregorianCalendar shiftStop = new GregorianCalendar();
+                    GregorianCalendar stopDock = new GregorianCalendar();
+                    GregorianCalendar stopInterval = new GregorianCalendar();
+                    GregorianCalendar stopGrace = new GregorianCalendar();
+                    GregorianCalendar lunchStart = new GregorianCalendar();
+                    GregorianCalendar lunchStop = new GregorianCalendar();
+                    
           }
           
           public int getTerminalid(){

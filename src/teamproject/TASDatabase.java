@@ -20,10 +20,10 @@ public class TASDatabase {
          public static void TASDatabase(){
                    
          }
+         
          public void setting(){
               db = new TASDatabase();
-         }
-          
+         } 
          
           public Shift getShift(int shiftid){
                      
@@ -316,31 +316,33 @@ public class TASDatabase {
                     return id;
                     
           }
+          
           public ArrayList getDailyPunchList(Badge b, long ts){
+                    
+                    String badgeId = b.getID();
+                    ArrayList<Punch> punches = new ArrayList<>(); 
+                    
+                    GregorianCalendar ts1 = new GregorianCalendar();
+                    GregorianCalendar ts2 = new GregorianCalendar();
               
-             // b = db.getBadge(" ");
-             
+                    ts1.setTimeInMillis(ts);
+                    ts2.setTimeInMillis(ts);
+                    
+                    Date d = ts1.getTime();
+                    
+                    ts1.set(Calendar.HOUR, 0);
+                    ts1.set(Calendar.MINUTE, 0);
+                    ts1.set(Calendar.SECOND, 0);
               
-              GregorianCalendar ts1 = new GregorianCalendar();
-              GregorianCalendar ts2 = new GregorianCalendar();
+                    ts2.set(Calendar.HOUR, 23);
+                    ts2.set(Calendar.MINUTE, 59);
+                    ts2.set(Calendar.SECOND, 0);
               
-               
-              
-              ts1.setTimeInMillis(ts);
-              ts2.setTimeInMillis(ts);
-              
-              ts1.set(Calendar.HOUR, 0);
-              ts1.set(Calendar.MINUTE, 0);
-              ts1.set(Calendar.SECOND, 0);
-              
-              ts2.set(Calendar.HOUR, 23);
-              ts2.set(Calendar.MINUTE, 59);
-              ts2.set(Calendar.SECOND, 0);
-              
-              Connection conn = null;
+                    Connection conn = null;
                     PreparedStatement pstSelect = null, pstUpdate = null;
                     ResultSet resultset = null;
                    Punch punch = null;
+                   
                     try{ 
                              
                               String url = "jdbc:mysql://localhost/tas";
@@ -353,10 +355,40 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts FROM punch WHERE badgeid ='"+b.getID()+"' AND ts >= "+1+" AND ts <= "+2+" ORDER BY originaltimestamp");
+                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts FROM punch WHERE badgeid ='"+b.getID()+"'  ORDER BY originaltimestamp");
                               if ( result != null ){
                                       result.next();
+                                      
+                                        Date original_ts = new Date(Long.parseLong(result.getString("timestamp")));
+                                        Calendar cal1 = Calendar.getInstance();
+                                        cal1.setTime(d);
+                                        Calendar cal2 = Calendar.getInstance();
+                                        cal2.setTime(original_ts);
+                                      
                               }
+                              
+                               if(punches.size() % 2 != 0){
+                
+                                                  ResultSet rs = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp) * 1000 AS 'timestamp' FROM event WHERE badgeid = '" + b.getID() + "'");
+                                                  boolean flag = false;
+                                                  while(rs != null && rs.next()){
+                                                            
+                                                            long new_ts = Long.parseLong(rs.getString("timestamp")) ;
+                                                            long next_day = d.getTime() + (60 * 24 * 1000);
+                                                            long original_day = d.getTime();
+                    
+                                                            if(new_ts < next_day && new_ts > original_day && !flag){     
+                                                                      int punchid = Integer.parseInt(rs.getString("id"));
+                                                                      int terminalid = Integer.parseInt(rs.getString("terminalid"));
+                                                                      int punchtypeid = Integer.parseInt(rs.getString("punchtypeid"));
+                                                                      Punch p = new Punch(new Badge(badgeId),terminalid,punchtypeid);
+                                                                      p.setId(punchid);
+                                                                      p.setTS(new_ts);
+                                                                      punches.add(p);               
+                                                                      flag = true;
+                                                            }
+                                                  }                
+                                        }
                               
                               conn.close( );
                               
@@ -374,13 +406,7 @@ public class TASDatabase {
                               if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
             
                     }
-           /*   SELECT*FROM (punch){
-                WHERE UNIX_TIMESTAMP(ots) > ts2
-                ORDER BY originaltimestamp
-                LIMIT 1;        
-          }
-          */
-           return null;
+                    return punches;
           }
           
 }
