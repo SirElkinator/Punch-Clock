@@ -214,7 +214,7 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts FROM punch WHERE id='"+punchId+"'");
+                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts FROM punch WHERE id="+punchId+"");
                               if ( result != null ){
                                         result.next();
                                         int id = result.getInt("id");
@@ -318,7 +318,7 @@ public class TASDatabase {
           }
           public ArrayList getDailyPunchList(Badge b, long ts){
               
-              b = db.getBadge(" ");
+             // b = db.getBadge(" ");
              
               
               GregorianCalendar ts1 = new GregorianCalendar();
@@ -337,6 +337,43 @@ public class TASDatabase {
               ts2.set(Calendar.MINUTE, 59);
               ts2.set(Calendar.SECOND, 0);
               
+              Connection conn = null;
+                    PreparedStatement pstSelect = null, pstUpdate = null;
+                    ResultSet resultset = null;
+                   Punch punch = null;
+                    try{ 
+                             
+                              String url = "jdbc:mysql://localhost/tas";
+                              String username = "tasuser";
+                              String password = "teamE";
+                
+          
+                              Class.forName("com.mysql.jdbc.Driver").newInstance();
+                              conn = DriverManager.getConnection(url, username, password);
+                           
+                               
+                              Statement stmt = conn.createStatement( );
+                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts FROM punch WHERE badgeid ='"+b.getID()+"' AND ts >= "+1+" AND ts <= "+2+" ORDER BY originaltimestamp");
+                              if ( result != null ){
+                                      result.next();
+                              }
+                              
+                              conn.close( );
+                              
+                    }
+                    catch (Exception e){
+                              System.err.println(e.toString());
+                    }
+                   
+                   finally {
+            
+                              if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
+            
+                              if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
+            
+                              if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
+            
+                    }
            /*   SELECT*FROM (punch){
                 WHERE UNIX_TIMESTAMP(ots) > ts2
                 ORDER BY originaltimestamp
