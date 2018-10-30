@@ -50,5 +50,28 @@ public class Shift {
                     return shift;
                     
           }
-          
+          public int getDock(){
+                    return dock;
+          }
+          public int getInterval(){
+                    return interval;
+          }
+          public int getDeduct(){
+                    return deduct;
+          }
+          public int getGrace(){
+                    return grace;
+          }
+          public Time getStart(){
+                    return start;
+          }
+          public Time getStop(){
+                    return stop;
+          }
+          public Time getLunchStart(){
+                    return lunchStart;
+          }
+          public Time getLunchStop(){
+                    return lunchStop;
+          }
 }

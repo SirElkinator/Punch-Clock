@@ -19,6 +19,7 @@ public class Punch {
         private int terminal;
         private int id;
         private long ts;
+        private long ats;
         GregorianCalendar gcal;
         
         //private Time original_timestamp;
@@ -70,7 +71,24 @@ public class Punch {
                     GregorianCalendar stopGrace = new GregorianCalendar();
                     GregorianCalendar lunchStart = new GregorianCalendar();
                     GregorianCalendar lunchStop = new GregorianCalendar();
+                   
+        }
                     
+          public String printAdjustedTimestamp(){
+                     String punch = null;
+                    gcal = new GregorianCalendar();
+                    gcal.setTimeInMillis(ats);
+              
+                    if (punchtype == 0){
+                              punch = "#"+badgeid+" CLOCKED OUT: "+gcal.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                    }
+                    if (punchtype == 1){
+                              punch = "#"+badgeid+" CLOCKED IN: "+gcal.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                    }
+                    if (punchtype == 2){
+                              punch = "#"+badgeid+" TIMED OUT: "+gcal.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                    }
+                    return punch.toUpperCase();
           }
           
           public int getTerminalid(){
