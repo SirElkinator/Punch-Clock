@@ -5,7 +5,6 @@
  */
 package teamproject;
 
-import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 /**
@@ -13,15 +12,15 @@ import java.util.*;
  * @author Chase Sparks, Richard Arredondo, Benjamin Baker, Raushaod Merritt, Andrew Reese
  */
 public class Punch {
-        
+         GregorianCalendar gcal = new GregorianCalendar();
+         GregorianCalendar gcal2 = new GregorianCalendar();
         private String badgeid;
         private int punchtype;
         private int terminal;
         private int id;
         private long ts;
         private long ats;
-        GregorianCalendar gcal;
-        
+        private String eventdata;
         //private Time original_timestamp;
           public Punch(Badge badge, int terminalid, int punchtypeid){
                
@@ -72,21 +71,22 @@ public class Punch {
                     GregorianCalendar lunchStart = new GregorianCalendar();
                     GregorianCalendar lunchStop = new GregorianCalendar();
                    
+                
+
+                    
         }
                     
           public String printAdjustedTimestamp(){
                      String punch = null;
-                    gcal = new GregorianCalendar();
-                    gcal.setTimeInMillis(ats);
               
                     if (punchtype == 0){
-                              punch = "#"+badgeid+" CLOCKED OUT: "+gcal.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                              punch = "#"+badgeid+" CLOCKED OUT: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss"+ " ("+eventdata+")"));
                     }
                     if (punchtype == 1){
-                              punch = "#"+badgeid+" CLOCKED IN: "+gcal.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                              punch = "#"+badgeid+" CLOCKED IN: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" +" ("+eventdata+")"));
                     }
                     if (punchtype == 2){
-                              punch = "#"+badgeid+" TIMED OUT: "+gcal.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" ));
+                              punch = "#"+badgeid+" TIMED OUT: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" +" ("+eventdata+")"));
                     }
                     return punch.toUpperCase();
           }
