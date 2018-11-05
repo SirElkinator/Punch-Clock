@@ -21,10 +21,10 @@ public class TASDatabase {
          public static void TASDatabase(){
                    
          }
+         
          public void setting(){
               db = new TASDatabase();
-         }
-          
+         } 
          
           public Shift getShift(int shiftid){
                      
@@ -343,12 +343,10 @@ public class TASDatabase {
               ts2.set(Calendar.MINUTE, 59);
               ts2.set(Calendar.SECOND, 59);
                             System.out.println("ts2=" + ts2.getTimeInMillis());
-                            
               
                     Connection conn = null;
                     PreparedStatement pstSelect = null, pstUpdate = null;
                     ResultSet resultset = null;
-
                     try{ 
                              
                               String url = "jdbc:mysql://localhost/tas";
@@ -361,7 +359,7 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                              Statement stmt2 = conn.createStatement();
+                              Statement stmt2 = conn.createStatement( );
                               
                               ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts\n" +
                                                                     "FROM punch\n" +
@@ -378,11 +376,9 @@ public class TASDatabase {
                                                                     "LIMIT 1;");
                               if ( result != null ){
                                       result.next();                                     
-                                      id1 = result.getInt("id");
-                                      id2 = result.getInt("id");
-                                      System.out.println("Punch added = " + getPunch(id1));
-                                      p_list.add(getPunch(id1));
-                                      p_list.add(getPunch(id2));
+                                      id = result.getInt("id");
+                                      System.out.println("Punch added = " + getPunch(id));
+                                      p_list.add(getPunch(id));
                              
                               }      
                               conn.close( ); 
@@ -399,38 +395,8 @@ public class TASDatabase {
                               if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
             
                               if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
-            
                     }
-           /*   SELECT*FROM (punch){
-                WHERE UNIX_TIMESTAMP(ots) > ts2
-                ORDER BY originaltimestamp
-                LIMIT 1;        
-          }
                     
-                    SELECT *
-                    FROM punch
-                    WHERE UNIX_TIMESTAMP("00:00:00") > "23:59:59"
-                    AND badgeid="67637925"
-                    ORDER BY originaltimestamp
-                    LIMIT 1;
-          
-           
-           Select *,UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts
-                   FROM Punch
-                   WHERE badgeid=""
-                   HAVING ts <= ts1 in millis
-                   AND ts >= ts2 in millis
-                   ORDER BY originaltimestamp;
-                    183, 101, '67637925', 2018-08-01 06:58:40, 1, 1533124720000
-            Select *,UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts
-                    FROM Punch
-                    WHERE badgeid=""
-                    HAVING ts > ts2 in millis
-                    ORDER BY originaltimestamp
-                    LIMIT 1;
-                  
-            */
-           return (p_list);
-          }
-          
+        return p_list;
+        }
 }

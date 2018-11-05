@@ -19,7 +19,7 @@ public class Feature2 {
     public void setup() {
         db = new TASDatabase();
     }
-    
+
     @Test
     public void testInsertCheckPunch() {
 		
@@ -61,7 +61,7 @@ public class Feature2 {
         assertEquals(eventtypeid, p2.getPunchtypeid());
         
     }
-    
+
     @Test
     public void testRetrievePunchList1() {
         

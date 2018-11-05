@@ -5,7 +5,6 @@
  */
 package teamproject;
 
-import java.sql.Timestamp;
 import java.time.format.DateTimeFormatter;
 import java.util.*;
 /**
@@ -13,15 +12,15 @@ import java.util.*;
  * @author Chase Sparks, Richard Arredondo, Benjamin Baker, Raushaod Merritt, Andrew Reese
  */
 public class Punch {
-        
+         GregorianCalendar gcal = new GregorianCalendar();
+         GregorianCalendar gcal2 = new GregorianCalendar();
         private String badgeid;
         private int punchtype;
         private int terminal;
         private int id;
         private long ts;
-        private Timestamp ots;
-        GregorianCalendar gcal;
-        
+        private long ats;
+        private String eventdata;
         //private Time original_timestamp;
           public Punch(Badge badge, int terminalid, int punchtypeid){
                
@@ -40,10 +39,6 @@ public class Punch {
           public void setId(int id){
                     this.id = id;
           }
-          public void setOTS(Timestamp ots){
-              this.ots = ots;
-              System.out.println(ots);
-          }
           public String printOriginalTimestamp(){
               
               String punch = null;
@@ -61,6 +56,39 @@ public class Punch {
               }
               return punch.toUpperCase();
               
+          }
+          
+          public void adjust(Shift s) {
+        
+                    GregorianCalendar shiftStart = new GregorianCalendar();
+                    GregorianCalendar startDock = new GregorianCalendar();
+                    GregorianCalendar startInterval = new GregorianCalendar();
+                    GregorianCalendar startGrace = new GregorianCalendar();
+                    GregorianCalendar shiftStop = new GregorianCalendar();
+                    GregorianCalendar stopDock = new GregorianCalendar();
+                    GregorianCalendar stopInterval = new GregorianCalendar();
+                    GregorianCalendar stopGrace = new GregorianCalendar();
+                    GregorianCalendar lunchStart = new GregorianCalendar();
+                    GregorianCalendar lunchStop = new GregorianCalendar();
+                   
+                
+
+                    
+        }
+                    
+          public String printAdjustedTimestamp(){
+                     String punch = null;
+              
+                    if (punchtype == 0){
+                              punch = "#"+badgeid+" CLOCKED OUT: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss"+ " ("+eventdata+")"));
+                    }
+                    if (punchtype == 1){
+                              punch = "#"+badgeid+" CLOCKED IN: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" +" ("+eventdata+")"));
+                    }
+                    if (punchtype == 2){
+                              punch = "#"+badgeid+" TIMED OUT: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" +" ("+eventdata+")"));
+                    }
+                    return punch.toUpperCase();
           }
           
           public int getTerminalid(){
