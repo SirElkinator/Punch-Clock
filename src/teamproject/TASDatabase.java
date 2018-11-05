@@ -12,6 +12,7 @@ package teamproject;
 
 
 import java.sql.*;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class TASDatabase {
@@ -214,7 +215,8 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts FROM punch WHERE id="+punchId+"");
+                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 "
+                                                                    + "AS ts FROM punch WHERE id="+punchId+"");
                               if ( result != null ){
                                         result.next();
                                         int id = result.getInt("id");
@@ -222,7 +224,8 @@ public class TASDatabase {
                                         int punchTypeId = result.getInt("punchtypeid");
                                         int terminalid = result.getInt("terminalid");
                                         String badgeId = result.getString("badgeid");
-                                        Badge badge = getBadge(badgeId);punch = new Punch(badge, terminalid, punchTypeId);
+                                        Badge badge = getBadge(badgeId);
+                                        punch = new Punch(badge, terminalid, punchTypeId);
                                           punch.setId(id);
                                           punch.setTS(ts);
                               }
@@ -316,31 +319,36 @@ public class TASDatabase {
                     return id;
                     
           }
-          public ArrayList getDailyPunchList(Badge b, long ts){
+          public ArrayList<Punch> getDailyPunchList(Badge b, long ts){
               
-             // b = db.getBadge(" ");
-             
-              
+            // b = db.getBadge(" ");
+            String b_id = b.getID();
+            int id = 0;
+            ArrayList<Punch> p_list = new ArrayList<>();
+            //p_list.add(new Punch(new Badge("67637925", "Test D. Testing"), 101, 1));
+            
               GregorianCalendar ts1 = new GregorianCalendar();
               GregorianCalendar ts2 = new GregorianCalendar();
-              
-               
-              
+         
               ts1.setTimeInMillis(ts);
               ts2.setTimeInMillis(ts);
+                            System.out.println(ts);
               
-              ts1.set(Calendar.HOUR, 0);
-              ts1.set(Calendar.MINUTE, 0);
-              ts1.set(Calendar.SECOND, 0);
+             ts1.set(Calendar.HOUR_OF_DAY, 0);
+             ts1.set(Calendar.MINUTE, 0);
+             ts1.set(Calendar.SECOND, 0);
+                            System.out.println("ts1=" + ts1.getTimeInMillis());
               
-              ts2.set(Calendar.HOUR, 23);
+              ts2.set(Calendar.HOUR_OF_DAY, 23);
               ts2.set(Calendar.MINUTE, 59);
-              ts2.set(Calendar.SECOND, 0);
+              ts2.set(Calendar.SECOND, 59);
+                            System.out.println("ts2=" + ts2.getTimeInMillis());
+                            
               
-              Connection conn = null;
+                    Connection conn = null;
                     PreparedStatement pstSelect = null, pstUpdate = null;
                     ResultSet resultset = null;
-                   Punch punch = null;
+
                     try{ 
                              
                               String url = "jdbc:mysql://localhost/tas";
@@ -353,19 +361,38 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts FROM punch WHERE badgeid ='"+b.getID()+"' AND ts >= "+1+" AND ts <= "+2+" ORDER BY originaltimestamp");
-                              if ( result != null ){
-                                      result.next();
-                              }
+                              Statement stmt2 = conn.createStatement();
                               
-                              conn.close( );
+                              ResultSet result = stmt.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts\n" +
+                                                                    "FROM punch\n" +
+                                                                    "WHERE badgeid=\"" + b_id + "\"\n" +
+                                                                    "HAVING ts >= " + ts1.getTimeInMillis() + "\n" +
+                                                                    "AND ts <= " + ts2.getTimeInMillis() + "\n"+
+                                                                    "ORDER BY originaltimestamp\n");
+                              
+                              ResultSet result2 = stmt2.executeQuery("SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts\n" +
+                                                                    "FROM punch\n" +
+                                                                    "WHERE badgeid=\"" + b_id + "\"\n" +
+                                                                    "HAVING ts > " + ts2.getTimeInMillis() + "\n" +
+                                                                    "ORDER BY originaltimestamp\n" +
+                                                                    "LIMIT 1;");
+                              if ( result != null ){
+                                      result.next();                                     
+                                      id1 = result.getInt("id");
+                                      id2 = result.getInt("id");
+                                      System.out.println("Punch added = " + getPunch(id1));
+                                      p_list.add(getPunch(id1));
+                                      p_list.add(getPunch(id2));
+                             
+                              }      
+                              conn.close( ); 
                               
                     }
-                    catch (Exception e){
+                    catch (Exception e){ 
                               System.err.println(e.toString());
                     }
                    
-                   finally {
+                   finally { 
             
                               if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
             
@@ -379,8 +406,31 @@ public class TASDatabase {
                 ORDER BY originaltimestamp
                 LIMIT 1;        
           }
-          */
-           return null;
+                    
+                    SELECT *
+                    FROM punch
+                    WHERE UNIX_TIMESTAMP("00:00:00") > "23:59:59"
+                    AND badgeid="67637925"
+                    ORDER BY originaltimestamp
+                    LIMIT 1;
+          
+           
+           Select *,UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts
+                   FROM Punch
+                   WHERE badgeid=""
+                   HAVING ts <= ts1 in millis
+                   AND ts >= ts2 in millis
+                   ORDER BY originaltimestamp;
+                    183, 101, '67637925', 2018-08-01 06:58:40, 1, 1533124720000
+            Select *,UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts
+                    FROM Punch
+                    WHERE badgeid=""
+                    HAVING ts > ts2 in millis
+                    ORDER BY originaltimestamp
+                    LIMIT 1;
+                  
+            */
+           return (p_list);
           }
           
 }
