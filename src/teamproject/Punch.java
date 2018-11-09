@@ -80,13 +80,13 @@ public class Punch {
                      String punch = null;
               
                     if (punchtype == 0){
-                              punch = "#"+badgeid+" CLOCKED OUT: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss"+ " ("+eventdata+")"));
+                              punch = "#"+badgeid+" CLOCKED OUT: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss")) + " ("+eventdata+")";
                     }
                     if (punchtype == 1){
-                              punch = "#"+badgeid+" CLOCKED IN: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" +" ("+eventdata+")"));
+                              punch = "#"+badgeid+" CLOCKED IN: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss")) +" ("+eventdata+")";
                     }
                     if (punchtype == 2){
-                              punch = "#"+badgeid+" TIMED OUT: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss" +" ("+eventdata+")"));
+                              punch = "#"+badgeid+" TIMED OUT: "+gcal2.toZonedDateTime().format(DateTimeFormatter.ofPattern( "E MM/dd/uuuu HH:mm:ss")) +" ("+eventdata+")";
                     }
                     return punch.toUpperCase();
           }
