@@ -5,10 +5,14 @@
  */
 package teamproject;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Chase Sparks, Richard Arredondo, Benjamin Baker, Raushaod Merritt, Andrew Reese
  */
 public class TASLogic {
+          public static int calculateTotalMinutes(ArrayList<Punch> dailypunchlist, Shift shift){
           
+          }
 }

@@ -50,6 +50,7 @@ public class Shift {
                     return shift;
                     
           }
+          
           public int getDock(){
                     return dock;
           }
