@@ -234,6 +234,7 @@ public class Punch {
                                         }
                               }       
                     }
+                    this.ats = gcal2.getTimeInMillis();
           }
                     
           public String printAdjustedTimestamp(){
@@ -263,6 +264,12 @@ public class Punch {
           }
           public long getOriginaltimestamp(){
               return this.ts;
+          }
+          public String getPunchData(){
+                    return this.eventdata;
+          }
+          public long getAdjustedtimestamp(){
+                    return this.ats;
           }
           public int getId(){
                     return this.id;

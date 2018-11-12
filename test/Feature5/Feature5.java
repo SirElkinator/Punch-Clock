@@ -2,6 +2,7 @@ package Feature5;
 
 import teamproject.Shift;
 import teamproject.TASDatabase;
+import teamproject.TASLogic;
 import teamproject.Punch;
 import teamproject.Badge;
 
