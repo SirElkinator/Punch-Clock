@@ -20,7 +20,7 @@ public class TASLogic {
           public static String getPunchListAsJSON(ArrayList dailypunchlist) {
                     
                     /* Create ArrayList Object */
-                    ArrayList<HashMap<string, string="">> jsonData;
+                    ArrayList<HashMap<String, String>> jsonData = new ArrayList<>();
                     
                     //iterate through punchlist for punches
                     for (int i = 0; i < dailypunchlist.size(); i++){
@@ -28,7 +28,7 @@ public class TASLogic {
                               Punch punch = (Punch) dailypunchlist.get(i);
                               
                               /* Create HashMap Object (one for every Punch!) */
-                              HashMap<string, string=""> punchData = new HashMap<>();
+                              HashMap<String, String> punchData = new HashMap<>();
 
                               /* Add Punch Data to HashMap */
                               punchData.put("id", String.valueOf(punch.getId()));
