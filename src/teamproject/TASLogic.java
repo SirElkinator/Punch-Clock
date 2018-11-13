@@ -14,9 +14,25 @@ import org.json.simple.*;
  * @author Chase Sparks, Richard Arredondo, Benjamin Baker, Raushaod Merritt, Andrew Reese
  */
 public class TASLogic {
+          
           public static int calculateTotalMinutes(ArrayList<Punch> dailypunchlist, Shift shift){
+                    int numberOfMins = 0;
+                    for (int i = 0; i < dailypunchlist.size(); i=i+2){
+                              Punch clockIn = (Punch) dailypunchlist.get(i);
+                              Punch clockOut = (Punch) dailypunchlist.get(i+1);
+                              if ((clockIn.getPunchtypeid()!=2) && (clockOut.getPunchtypeid()!=2)){
+                                         long clockDifference = clockOut.gcal2.getTimeInMillis()-clockIn.gcal2.getTimeInMillis();
+                                         numberOfMins = (int) (clockDifference/60000);
+                              }
+                              //if lunch
+                         //     {
+                            //            numberOfMins = numberOfMins - 30;
+                              //}
+                    }
                     
+                    return numberOfMins;
           }
+          
           public static String getPunchListAsJSON(ArrayList dailypunchlist) {
                     
                     /* Create ArrayList Object */
