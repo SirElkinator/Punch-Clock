@@ -21,6 +21,7 @@ public class Punch {
         private long ts;
         private long ats;
         private String eventdata;
+        private boolean lunchFlag = false;
         //private Time original_timestamp;
           public Punch(Badge badge, int terminalid, int punchtypeid){
                
@@ -178,6 +179,7 @@ public class Punch {
                                         }
                                         else if(originalTimeStampMillis >= lunchStartMillis && originalTimeStampMillis <= lunchStopMillis){
                                                   gcal2.setTimeInMillis(lunchStopMillis);
+                                                  lunchFlag = true;
                                                   eventdata = "Lunch Stop";
                                         }
                                         else if(originalTimeStampMillis > startGraceMillis && gcal.get(Calendar.MINUTE) % interval > interval/2){
@@ -212,6 +214,7 @@ public class Punch {
                 
                                         else if(originalTimeStampMillis >= lunchStartMillis && originalTimeStampMillis < lunchStopMillis){
                                                   gcal2.setTimeInMillis(lunchStartMillis);
+                                                  lunchFlag = true;
                                                   eventdata = "Lunch Start";
                                         }
                                         else if(originalTimeStampMillis < stopGraceMillis && gcal.get(Calendar.MINUTE) % interval < interval/2){
@@ -273,6 +276,9 @@ public class Punch {
           }
           public int getId(){
                     return this.id;
+          }
+          public boolean getLunchFlag(){
+                    return this.lunchFlag;
           }
           
 }

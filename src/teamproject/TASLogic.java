@@ -17,17 +17,21 @@ public class TASLogic {
           
           public static int calculateTotalMinutes(ArrayList<Punch> dailypunchlist, Shift shift){
                     int numberOfMins = 0;
+                    if (dailypunchlist.size() < 2){
+                              return 0;
+                    }
                     for (int i = 0; i < dailypunchlist.size(); i=i+2){
                               Punch clockIn = (Punch) dailypunchlist.get(i);
                               Punch clockOut = (Punch) dailypunchlist.get(i+1);
+                              
                               if ((clockIn.getPunchtypeid()!=2) && (clockOut.getPunchtypeid()!=2)){
                                          long clockDifference = clockOut.gcal2.getTimeInMillis()-clockIn.gcal2.getTimeInMillis();
-                                         numberOfMins = (int) (clockDifference/60000);
+                                         numberOfMins = numberOfMins + (int) (clockDifference/60000);
                               }
-                              //if lunch
-                         //     {
-                            //            numberOfMins = numberOfMins - 30;
-                              //}
+                              if ((numberOfMins > shift.getDeduct()) && (clockIn.getLunchFlag() == false)){
+                                        int numberOfLunchMins = numberOfMins - shift.getLunchTime();
+                                        return numberOfLunchMins;
+                             }
                     }
                     
                     return numberOfMins;

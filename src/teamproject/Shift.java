@@ -75,4 +75,8 @@ public class Shift {
           public Time getLunchStop(){
                     return lunchStop;
           }
+          public int getLunchTime(){
+                  int lunchTime = (int) (((lunchStop.getTime()- lunchStart.getTime())/60000));
+                  return lunchTime;
+          }
 }
