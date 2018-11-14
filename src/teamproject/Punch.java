@@ -223,6 +223,7 @@ public class Punch {
                                         } 
                                         else if(gcal.get(Calendar.HOUR_OF_DAY) == shiftStop.get(Calendar.HOUR_OF_DAY) + 1 && gcal.get(Calendar.MINUTE) == shiftStop.get(Calendar.MINUTE)){
                                                   eventdata = "None";
+                                                  gcal2.set(Calendar.SECOND,0);
                                         }
                                         else{
                                                   if(gcal.get(Calendar.MINUTE) % interval >= interval / 2){
