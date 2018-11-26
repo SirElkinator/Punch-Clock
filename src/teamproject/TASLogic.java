@@ -67,4 +67,8 @@ public class TASLogic {
                     String json = JSONValue.toJSONString(jsonData);
                     return json;
           }
+          
+          public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift shift){
+                    
+          }
 }

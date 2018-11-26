@@ -20,6 +20,9 @@ public class Badge {
     public String getID(){
         return id;
     }
+    public String getId(){
+              return id;
+    }
     public void setDescrip(String newDescrip){
         this.description = newDescrip;
     }

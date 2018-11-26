@@ -319,6 +319,7 @@ public class TASDatabase {
                     return id;
                     
           }
+          
           public ArrayList<Punch> getDailyPunchList(Badge b, long ts){
               
             String b_id = b.getID();
@@ -393,5 +394,18 @@ public class TASDatabase {
                     
         return p_list;
         }
+          
+          public ArrayList<Punch> getPayPeriodPunchList(Badge b, long ts){
+                    
+          }
+          
+          public Absenteeism getAbsenteeism(String badgeid, long ts){
+                    return null;
+          }
+          
+          public void insertAbsenteeism(Absenteeism absent){
+                    
+          }
+          
 }
 	
