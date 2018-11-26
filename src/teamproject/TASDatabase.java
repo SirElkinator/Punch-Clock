@@ -396,7 +396,77 @@ public class TASDatabase {
         }
           
           public ArrayList<Punch> getPayPeriodPunchList(Badge b, long ts){
+                    String b_id = b.getID();
+            int id = 0;
+            ArrayList<Punch> p_list = new ArrayList<>();
+            
+              GregorianCalendar ts1 = new GregorianCalendar();
+              GregorianCalendar ts2 = new GregorianCalendar();
+         
+              ts1.setTimeInMillis(ts);
+              ts2.setTimeInMillis(ts);
+                           // System.out.println(ts);
+              ts1.set(Calendar.DAY_OF_WEEK, 1);
+             ts1.set(Calendar.HOUR_OF_DAY, 0);
+             ts1.set(Calendar.MINUTE, 0);
+             ts1.set(Calendar.SECOND, 0);
+                            //System.out.println("ts1=" + ts1.getTimeInMillis());
+              ts2.set(Calendar.DAY_OF_WEEK, 7);
+              ts2.set(Calendar.HOUR_OF_DAY, 23);
+              ts2.set(Calendar.MINUTE, 59);
+              ts2.set(Calendar.SECOND, 59);
+                           // System.out.println("ts2=" + ts2.getTimeInMillis());
+              
+                    Connection conn = null;
+                    PreparedStatement pstSelect = null, pstUpdate = null;
+                    ResultSet resultset = null;
+                    String query;
+                    boolean hasresults;
+                    try{ 
+                             
+                        String url = "jdbc:mysql://localhost/tas";
+                        String username = "tasuser";
+                        String password = "teamE";
+
+
+                        Class.forName("com.mysql.jdbc.Driver").newInstance();
+                        conn = DriverManager.getConnection(url, username, password);
+
+                        query = "SELECT *, UNIX_TIMESTAMP(originaltimestamp)*1000 AS ts\n" +
+                                                                    "FROM punch\n" +
+                                                                    "WHERE badgeid=\"" + b_id + "\"\n" +
+                                                                    "HAVING ts >= " + ts1.getTimeInMillis() + "\n" +
+                                                                    "AND ts <= " + ts2.getTimeInMillis() + "\n"+
+                                                                    "ORDER BY originaltimestamp;\n";
+                        pstSelect = conn.prepareStatement(query);
+                        hasresults = pstSelect.execute(); 
+                        while(hasresults){
+                        resultset = pstSelect.getResultSet();
+
+                            while (resultset.next()){
+                                    //clock in time
+                                    id = resultset.getInt("id");
+                                   // System.out.println("Punch added = " + getPunch(id).printOriginalTimestamp());
+                                    p_list.add(getPunch(id));                                
+                            }  
+                        hasresults = pstSelect.getMoreResults();
+                        conn.close( ); 
+                        }                           
+                    }
+                    catch (Exception e){ 
+                              System.err.println(e.toString());
+                    }
+                   
+                   finally { 
+            
+                              if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
+            
+                              if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
+            
+                              if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
+                    }
                     
+        return p_list;
           }
           
           public Absenteeism getAbsenteeism(String badgeid, long ts){
