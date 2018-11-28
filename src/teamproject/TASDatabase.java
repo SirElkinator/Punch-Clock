@@ -470,11 +470,118 @@ public class TASDatabase {
           }
           
           public Absenteeism getAbsenteeism(String badgeid, long ts){
-                    return null;
+                    
+                    Connection conn = null;
+                    PreparedStatement pstSelect = null, pstUpdate = null;
+                    ResultSet resultset = null;
+                     Absenteeism absenteeism = null;
+                    try{ 
+                             
+                              String url = "jdbc:mysql://localhost/tas";
+                              String username = "tasuser";
+                              String password = "teamE";
+                              
+          
+                              Class.forName("com.mysql.jdbc.Driver").newInstance();
+                              conn = DriverManager.getConnection(url, username, password);
+                   
+                             
+                              Statement stmt = conn.createStatement( );
+                              ResultSet result = stmt.executeQuery("SELECT * FROM absenteeism WHERE badgeid= '"+badgeid+"'");
+                              if ( result != null ){
+                                        result.next();
+                                        //String badgeid = result.getString("badgeid");
+                                        Timestamp pay = result.getTimestamp("payperiod");
+                                        double percentage = result.getDouble("percentage");
+                                        long payperiod = pay.getTime();
+                                        absenteeism = new Absenteeism(badgeid,payperiod,percentage);
+                                          
+                              }
+                             
+                              
+                              conn.close( );
+                
+                    }
+                    
+                    catch (Exception e){
+                              System.err.println(e.toString());
+                              return null;
+                    }
+                   
+                   finally {
+            
+                              if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
+            
+                              if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
+            
+                              if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
+            
+                    }
+                    
+                    return absenteeism;
           }
           
           public void insertAbsenteeism(Absenteeism absent){
+                    Connection conn = null;
+                    PreparedStatement pstSelect = null, pstUpdate = null;
+                    ResultSet resultset = null;
+                    String query;
+                    int updateCount = 0;
+                   
+                  
+                  String badgeid = absent.getId();
+                  long payperiod = absent.getPayPeriod();
+                  double percentage = absent.getPercentage();
+                  Timestamp pay = null;
+                  
                     
+                   try{ 
+                             
+                              String url = "jdbc:mysql://localhost/tas";
+                              String username = "tasuser";
+                              String password = "teamE";
+                
+          
+                              Class.forName("com.mysql.jdbc.Driver").newInstance();
+                              conn = DriverManager.getConnection(url, username, password);
+                           
+                               
+                              Statement stmt = conn.createStatement( );
+                              pay.setTime(payperiod);
+                              query = "INSERT INTO absenteeism (badgeid, payperiod, percentage) VALUES (?, ?, ?)";
+                              pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
+                              
+                              
+                              pstUpdate.setString(1,badgeid);
+                              pstUpdate.setTimestamp(2, pay);                        
+                             pstUpdate.setDouble(3,percentage);
+                               
+                                 // Get New Key; Print To Console
+                              updateCount = pstUpdate.executeUpdate();
+                              if (updateCount > 0) {
+            
+                                    resultset = pstUpdate.getGeneratedKeys();
+                                    
+
+                              }
+
+                              conn.close( );
+                              
+                    }
+                   
+                    catch (Exception e){
+                              System.err.println(e.toString());
+                    }
+                   
+                   finally {
+            
+                              if (resultset != null) { try { resultset.close(); resultset = null; } catch (Exception e) {} }
+            
+                              if (pstSelect != null) { try { pstSelect.close(); pstSelect = null; } catch (Exception e) {} }
+            
+                              if (pstUpdate != null) { try { pstUpdate.close(); pstUpdate = null; } catch (Exception e) {} }
+            
+                    }
           }
           
 }

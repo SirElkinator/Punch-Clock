@@ -69,6 +69,8 @@ public class TASLogic {
           }
           
           public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift shift){
+                    double a = 0;
                     
+                    return a;
           }
 }
