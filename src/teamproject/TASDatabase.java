@@ -532,7 +532,7 @@ public class TASDatabase {
                   String badgeid = absent.getId();
                   long payperiod = absent.getPayPeriod();
                   double percentage = absent.getPercentage();
-                  Timestamp pay = null;
+                  Timestamp payday = new Timestamp(System.currentTimeMillis());
                   
                     
                    try{ 
@@ -547,13 +547,13 @@ public class TASDatabase {
                            
                                
                               Statement stmt = conn.createStatement( );
-                              pay.setTime(payperiod);
+                              payday.setTime(payperiod);
                               query = "INSERT INTO absenteeism (badgeid, payperiod, percentage) VALUES (?, ?, ?)";
                               pstUpdate = conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
                               
                               
                               pstUpdate.setString(1,badgeid);
-                              pstUpdate.setTimestamp(2, pay);                        
+                              pstUpdate.setTimestamp(2, payday);                        
                              pstUpdate.setDouble(3,percentage);
                                
                                  // Get New Key; Print To Console

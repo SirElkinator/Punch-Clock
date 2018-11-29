@@ -69,8 +69,24 @@ public class TASLogic {
           }
           
           public static double calculateAbsenteeism(ArrayList<Punch> punchlist, Shift shift){
-                    double a = 0;
-                    
-                    return a;
+                   
+                     double numberOfMins = 0;
+                    if (punchlist.size() < 2){
+                              return 0;
+                    }
+                    for (int i = 0; i < punchlist.size(); i=i+2){
+                              Punch clockIn = (Punch) punchlist.get(i);
+                              Punch clockOut = (Punch) punchlist.get(i+1);
+                              
+                              if ((clockIn.getPunchtypeid()!=2) && (clockOut.getPunchtypeid()!=2)){
+                                         long clockDifference = clockOut.gcal2.getTimeInMillis()-clockIn.gcal2.getTimeInMillis();
+                                         numberOfMins = numberOfMins + (int) (clockDifference/60000);
+                              }
+                              if ((numberOfMins > shift.getDeduct()) && (clockIn.getLunchFlag() == false)){
+                                        double numberOfLunchMins = numberOfMins - shift.getLunchTime();
+                                        return numberOfLunchMins;
+                             }
+                    }
+                    return numberOfMins;
           }
 }

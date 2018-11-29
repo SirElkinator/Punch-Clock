@@ -6,6 +6,8 @@
 package teamproject;
 
 import java.sql.Timestamp;
+import java.time.format.DateTimeFormatter;
+import java.util.GregorianCalendar;
 
 /**
  *
@@ -15,7 +17,7 @@ public class Absenteeism{
           String badgeid;
           long payperiod;
           double percentage;
-          
+          GregorianCalendar payday = new GregorianCalendar();
           public Absenteeism(String badgeid, long payperiod, double percentage){
                     this.badgeid = badgeid;
                     this.payperiod = payperiod;
@@ -42,7 +44,8 @@ public class Absenteeism{
           }
           @Override
           public String toString(){
-                    String string = badgeid + payperiod + percentage ;
+                    payday.setTimeInMillis(payperiod);
+                    String string = "#" + badgeid + " (Pay Period Starting " + payday.toZonedDateTime().format(DateTimeFormatter.ofPattern("MM-dd-uuuu")) + "): " +percentage + "%";
                     return string;
           }
           
