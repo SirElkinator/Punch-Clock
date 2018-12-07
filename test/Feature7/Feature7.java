@@ -9,6 +9,7 @@ import teamproject.TASDatabase;
 import teamproject.TASLogic;
 import teamproject.Punch;
 import teamproject.Badge;
+import teamproject.Absenteeism;
 
 import org.junit.*;
 import static org.junit.Assert.*;
