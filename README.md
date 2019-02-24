@@ -19,6 +19,7 @@ Contains information on how lunches are handled. Shifts are also inserted and se
 BADGE
 
 The badge class helps identify an employee, each badge object created is for a specific employee at the company, the badgeid is used in the punch and database classes to find out who made certain clock ins and clock outs. There are no functions in this class, just several parameters.
+
 TASDATABASE
 
 This is where a whole lot of the program is based, inserting and selecting the three objects created with the classes above into the SQL database. All of the get___ functions do pretty much the same thing: selects a ___ object from the database based on a parameter of it, then populates a ___ object in the program based on what it pulled. Then there is the InsertPunch method, which gets a punch created from the punch class and inserts it into the Punch database. The TASDATABASE class also retrieves two different lists of punch and makes two Arraylists.
