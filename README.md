@@ -1,4 +1,4 @@
-# TeamProject
+#Punch Clock
 Information:
 
 This project is designed to implement a punch clock for a company, with the idea of eventually connecting it to several terminals
