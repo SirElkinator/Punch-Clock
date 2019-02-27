@@ -2,7 +2,7 @@
 
 Information:
 
-This project is designed to implement a punch clock for a company, with the idea of eventually connecting it to several terminals across a building and making an interface to simplify the process for employees. This was created for a Software Engineering I course by a team consisting of the following members: Chase Sparks, Richard Arredondo, Andrew Reese, Benjamin Baker and in the role of ScrumMaster Raushaod Merritt. The class was instructed by Jay Snellen and this project served as a final project for the course, taking about 2 months to create. The class was set up to develop and instill several different programming skills in the students. In the creation of this software the agile method of Scrum was applied, with four sprints consisting of two weeks apiece. GitHub and Git were used for source control, and SQL was used as a database to hold the punches with the program MySQL. The project is written in Java and was worked on in the IDE NetBeans.
+This project is designed to implement a punch clock for a company, with the idea of eventually connecting it to several terminals across a building and making an interface to simplify the process for employees. This was created for a Software Engineering I course by a team consisting of the following members: Chase Sparks, Richard Arredondo, Andrew Reese, Benjamin Baker and in the role of ScrumMaster Raushaod Merritt. The class was instructed by Jay Snellen and this project served as a final project for the course, taking about two months to create. The class was set up to develop and instill several different programming skills in the students. In the creation of this software the agile method of Scrum was applied, with four sprints consisting of two weeks apiece. GitHub and Git were used for source control, and SQL was used as a database to hold the punches with the program MySQL. The project is written in Java and was worked on in the IDE NetBeans.
 
 TESTS
 
@@ -10,7 +10,7 @@ There were a set of eight different features outlined that could be completed be
 
 PUNCH
 
-This sets the parameters for Punch objects, which are employees clocking in and out of work. It consists of the punchtype (clock in/clock out/timed out), the timestamp of the punch, and the badgeid of the employee. It also includes a function labeled “adjust”, which will move an employee’s punch forward or backward fifteen minutes in time to certain sets of circumstances. It comes with several getter methods towards the bottom and print functions to print timestamps and adjusted timestamps.
+This sets the parameters for Punch objects, which are employees clocking in and out of work. It consists of the punchtype (clock in/clock out/timed out), the timestamp of the punch, and the badgeid of the employee. It also includes a function labeled “adjust”, which will move an employee’s punch forward or backward fifteen minutes in time to certain sets of circumstances. It comes with several getter methods towards the bottom and print functions to print timestamps and the adjusted timestamps.
 
 SHIFT
 
@@ -22,7 +22,7 @@ The badge class helps identify an employee, each badge object created is for a s
 
 TASDATABASE
 
-This is where a whole lot of the program is based, inserting and selecting the three objects created with the classes above into the SQL database. All of the get___ functions do pretty much the same thing: selects a ___ object from the database based on a parameter of it, then populates a ___ object in the program based on what it pulled. Then there is the InsertPunch method, which gets a punch created from the punch class and inserts it into the Punch database. The TASDATABASE class also retrieves two different lists of punch and makes two Arraylists.
+This is where a lot of the program is based, inserting and selecting the three objects created with the classes above into the SQL database. All of the get___ functions do pretty much the same thing: selects a ___ object from the database based on a parameter of it, then populates a ___ object in the program based on what it pulled. Then there is the InsertPunch method, which gets a punch created from the punch class and inserts it into the Punch database. The TASDATABASE class also has methods to retrieve two different lists of punches and makes two Arraylists.
 
 TASLOGIC
 
